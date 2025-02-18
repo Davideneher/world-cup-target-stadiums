@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stadium Map</title>
+  <script>
+    L_NO_TOUCH = false;
+    L_DISABLE_3D = false;
+  </script>
+  <style>
+    html, body { width: 100%; height: 100%; margin: 0; padding: 0; }
+    #map_376c88e9de9dd3bf707b911d33a615ef { position: absolute; top: 0; bottom: 0; right: 0; left: 0; }
+    .popup-info {
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+    .popup-info strong {
+      display: inline-block;
+      width: 150px;
+    }
+  </style>
+  <!-- Leaflet & Dependencies -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css"/>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/leaflet@1.6.0/dist/leaflet.js"></script>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+</head>
+<body>
+  <div id="map_376c88e9de9dd3bf707b911d33a615ef"></div>
+  <script>
+    // Initialize the map
+    var map = L.map("map_376c88e9de9dd3bf707b911d33a615ef", {
+      center: [38.0, -97.0],
+      zoom: 4,
+      zoomControl: true
+    });
+
+    // Add OpenStreetMap tiles
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      attribution: 'Data by &copy; <a href="http://openstreetmap.org">OpenStreetMap</a>, under <a href="http://www.openstreetmap.org/copyright">ODbL</a>.',
+      maxZoom: 18
+    }).addTo(map);
+
+    // Function to create detailed popup content
+    function createPopupContent(data) {
+      return '<div class="popup-info">' +
+             '<strong>City:</strong> ' + data.city + '<br>' +
+             '<strong>Stadium:</strong> ' + data.stadium + '<br>' +
+             '<strong>Capacity:</strong> ' + data.capacity + '<br>' +
+             '<strong>Regular Teams/Sport:</strong> ' + data.teams + '<br>' +
+             '<strong>Club World Cup Usage:</strong> ' + data.clubUsage + '<br>' +
+             '<strong>World Cup 2026 Usage:</strong> ' + data.worldCupUsage +
+             '</div>';
+    }
+
+    // Array containing data for each stadium marker
+    var markersData = [
+      {
+        coords: [33.7557, -84.4],
+        data: {
+          city: "Atlanta, GA",
+          stadium: "Mercedes-Benz Stadium",
+          capacity: "75,000",
+          teams: "Atlanta United FC (MLS), Atlanta Falcons (NFL)",
+          clubUsage: "General Matches",
+          worldCupUsage: "General Matches"
+        }
+      },
+      {
+        coords: [25.958, -80.2389],
+        data: {
+          city: "Miami Gardens, FL",
+          stadium: "Hard Rock Stadium",
+          capacity: "65,000",
+          teams: "Inter Miami CF (MLS), Miami Dolphins (NFL)",
+          clubUsage: "Opening Match (Inter Miami)",
+          worldCupUsage: "General Matches"
+        }
+      },
+      {
+        coords: [40.8136, -74.0745],
+        data: {
+          city: "East Rutherford, NJ",
+          stadium: "MetLife Stadium",
+          capacity: "82,500",
+          teams: "New York Giants (NFL), New York Jets (NFL)",
+          clubUsage: "Final Match",
+          worldCupUsage: "Final Match"
+        }
+      },
+      {
+        coords: [39.9012, -75.1675],
+        data: {
+          city: "Philadelphia, PA",
+          stadium: "Lincoln Financial Field",
+          capacity: "69,000",
+          teams: "Philadelphia Eagles (NFL)",
+          clubUsage: "General Matches",
+          worldCupUsage: "General Matches"
+        }
+      },
+      {
+        coords: [47.5952, -122.3316],
+        data: {
+          city: "Seattle, WA",
+          stadium: "Lumen Field",
+          capacity: "69,000",
+          teams: "Seattle Sounders FC (MLS), Seattle Seahawks (NFL)",
+          clubUsage: "Seattle Sounders Group-Stage Matches",
+          worldCupUsage: "General Matches"
+        }
+      }
+    ];
+
+    // Create markers with popups
+    markersData.forEach(function(item) {
+      var marker = L.marker(item.coords).addTo(map);
+      var popupContent = createPopupContent(item.data);
+      marker.bindPopup(popupContent);
+      // Set custom icon using AwesomeMarkers
+      var icon = L.AwesomeMarkers.icon({
+        icon: "info-sign",
+        markerColor: "red",
+        prefix: "glyphicon"
+      });
+      marker.setIcon(icon);
+    });
+  </script>
+</body>
+</html>
